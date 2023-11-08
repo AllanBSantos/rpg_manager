@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, TouchableHighlight, Image } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import ArmorClass from '../../components/ArmorClass';
 import AttributeContainer from '../../components/AttributeContainer';
@@ -9,8 +9,49 @@ import { Features } from '../../components/Features';
 import { Inventory } from '../../components/Inventory';
 import { colors } from '../../constants/Colors';
 
+ type attributeType = {
+  description: string, value: number, modifier: number
+};
+
+type characterDataType = {
+  name: string,
+  url: string,
+  currentHp: number,
+  totalHp: number,
+  ac: number,
+  lvl: number,
+  race: string,
+  class: string,
+  background: string,
+  proficiencyBonus: number,
+  initiative: number,
+  attributes: attributeType[],
+}
+
 export default function CurrentCharacter() {
     const [menuSelected, setMenuSelected] = useState(0);
+
+    const characterData : characterDataType = {
+      name: 'Sarah Lovegood',
+      url: "https://i.pinimg.com/736x/87/b4/0f/87b40f9cb69e3b794eb84caccb6b36d7.jpg",
+      currentHp: 10,
+      totalHp: 10,
+      ac: 20,
+      lvl: 1,
+      race: 'Humano',
+      class: 'Druida',
+      background: 'Forasteiro',
+      proficiencyBonus: 2,
+      initiative: 3,
+      attributes: [
+        {description: 'str', value: 14, modifier: 2},
+        {description: 'dex', value: 14, modifier: 2},
+        {description: 'con', value: 14, modifier: 2},
+        {description: 'int', value: 14, modifier: 2},
+        {description: 'wis', value: 14, modifier: 2},
+        {description: 'cha',value: 14, modifier: 2},
+      ],
+    };
 
 
   return (
@@ -23,47 +64,45 @@ export default function CurrentCharacter() {
                 <Image
                     style={styles.logo}
                     source={{
-                        uri: 'https://i.pinimg.com/736x/87/b4/0f/87b40f9cb69e3b794eb84caccb6b36d7.jpg',
+                        uri: characterData.url,
                     }}
                 />
             </TouchableHighlight>
-            <Text style={[styles.name, {fontSize:24}]}>10/10</Text>
+            <Text style={[styles.name, {fontSize:24}]}>{`${characterData.currentHp}`}/{`${characterData.totalHp}`}</Text>
             </View>
             <View style={styles.nameContainer}>
                 <View style={[ styles.row ,styles.beige]}>
-                    <Text style={styles.name}>Sarah Lovegood</Text>
-                    <Text style={styles.name}>Lvl 1 </Text>
+                    <Text style={styles.name}>{characterData.name}</Text>
+                    <Text style={styles.name}>Lvl {`${characterData.lvl}`} </Text>
                 </View>
                 <View style={[ styles.row ,styles.beige]}>
-                    <Text style={styles.info}>Humano</Text>
+                    <Text style={styles.info}>{characterData.race}</Text>
                     <Text style={styles.info}>.</Text>
-                    <Text style={styles.info}>Druida </Text>
+                    <Text style={styles.info}>{characterData.class} </Text>
                     <Text style={styles.info}>.</Text>
-                    <Text style={styles.info}>Forasteiro </Text>
+                    <Text style={styles.info}>{characterData.background} </Text>
                 </View>
                 <View style={ [styles.beige, styles.row, { width:'100%', justifyContent:'space-around' }]}>
 
                     <View style={
                         [styles.column, styles.beige, { width:'30%'}, {justifyContent:'center', alignItems:'center'}]}>
                         <Text style={styles.info}>Iniciativa </Text>
-                        <Text style={styles.info}> +3 </Text>
+                        <Text style={styles.info}> +{`${characterData.initiative}`} </Text>
                     </View>
                     <View style={
                         [styles.column, styles.beige, { width:'30%'}, {justifyContent:'center', alignItems:'center'}]}>
                         <Text style={styles.info}>Proef. </Text>
-                        <Text style={styles.info}> +2 </Text>
+                        <Text style={styles.info}> +{`${characterData.proficiencyBonus}`} </Text>
                     </View>
-                    <ArmorClass ac={20} />
+                    <ArmorClass ac={characterData.ac} />
                 </View>
             </View>
         </View>
         <View style={[styles.attributeContainer]}>
-            <AttributeContainer name="For" attribute={14} modifier={2} />
-            <AttributeContainer name="Des" attribute={14} modifier={2} />
-            <AttributeContainer name="Con" attribute={14} modifier={2} />
-            <AttributeContainer name="Int" attribute={14} modifier={2} />
-            <AttributeContainer name="Sab" attribute={14} modifier={2} />
-            <AttributeContainer name="Car" attribute={14} modifier={2} />
+
+                      {characterData.attributes.map((attribute) => (
+                       <AttributeContainer description={attribute.description} value={attribute.value} modifier={attribute.modifier} />
+                      ))}
         </View>
         <View style={[styles.row, styles.beige, {justifyContent: 'space-around'}]}>
             <Text 

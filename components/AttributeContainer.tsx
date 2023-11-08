@@ -3,14 +3,17 @@ import { StyleSheet, TextInput, TouchableHighlight, Image, ImageBackground } fro
 import { Text, View } from './Themed';
 import { colors } from '../constants/Colors';
 //import { TextInput } from 'react-native-gesture-handler';
-
-export default function AttributeContainer(props: {attribute: number, modifier: number, name: string}) {
+type attributeType = {
+  description: string, value: number, modifier: number
+};
+export default function AttributeContainer(props: 
+  attributeType) {
   return (
     <View>
 
         <View style={[styles.column, styles.container, styles.beige]}>
-            <Text style={[styles.info, {marginBottom:4}]}>{props.name}</Text>
-            <Text style={[styles.info, {marginBottom:4, fontSize:20}]}>{props.attribute}</Text>
+            <Text style={[styles.info, {marginBottom:4}]}>{props.description}</Text>
+            <Text style={[styles.info, {marginBottom:4, fontSize:20}]}>{props.value}</Text>
             <Text style={[styles.info, {marginBottom:4}]}>+{props.modifier}</Text>
         </View>
     </View>
